@@ -11,13 +11,7 @@
 
 #import "CoreLib.h"
 
-
-CC_ENUM(uint8_t, purchaseActivationType)
-{
-    kPurchaseActivationFree = 0,
-    kPurchaseActivationPaid = 1,
-    kPurchaseActivationPro = 2
-};
+#import "PurchaseActivationType.h"
 
 
 #ifdef USE_SPARKLE

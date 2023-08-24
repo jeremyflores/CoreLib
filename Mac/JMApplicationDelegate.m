@@ -168,7 +168,7 @@
     NSNumber *tagNum = [sender valueForKey:@"tag"];
 	int tag = tagNum.intValue;
 
-	[cc openURL:(openChoice)tag];
+	[cc openURL:(CLOpenChoice)tag];
 }
 
 - (BOOL)isRateable

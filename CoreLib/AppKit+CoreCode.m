@@ -11,8 +11,9 @@
 
 #import "AppKit+CoreCode.h"
 
+#import "CLTarget.h"
 
-#if defined(TARGET_OS_MAC) && TARGET_OS_MAC && !TARGET_OS_IPHONE
+#if defined CL_TARGET_OSX
 
 #if __has_feature(modules)
 @import ObjectiveC.runtime;
@@ -474,7 +475,7 @@ static const char *actionBlockAssociatedObjectName = "CoreCode_NSControl_BlockAc
 }
 @end
 
-#else
+#elif CL_TARGET_IOS
 
 @implementation UIView (UIView_RemoveSubviews)
 

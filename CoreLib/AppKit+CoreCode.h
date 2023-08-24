@@ -13,7 +13,7 @@
 #include "CoreLib.h"
 
 
-#if defined(TARGET_OS_MAC) && TARGET_OS_MAC && !TARGET_OS_IPHONE
+#if CL_TARGET_OSX
 
 @interface NSWindow (CoreCode)
 
@@ -83,8 +83,7 @@
 
 @end
 
-#else
-
+#elif CL_TARGET_IOS
 
 @interface UIView (UIView_RemoveSubviews)
 

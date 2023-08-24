@@ -308,7 +308,7 @@ CONST_KEY_IMPLEMENTATION(VisibilityShiftLeftClickNotification)
                     }
 
                     Class c = event.window.class;
-                    if (c == NSPanel.class || c == FakeAlertWindow.class || [NSStringFromClass(c) isEqualToString:@"_NSAlertPanel"])
+                    if (c == NSPanel.class || c == CLFakeAlertWindow.class || [NSStringFromClass(c) isEqualToString:@"_NSAlertPanel"])
                     {
                         __weak NSNotificationCenter *center = NSNotificationCenter.defaultCenter;
                         __block id token = [center addObserverForName:NSWindowDidResignKeyNotification
