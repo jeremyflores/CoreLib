@@ -11,8 +11,6 @@
 
 #import "CoreLib.h"
 
-#import "PurchaseActivationType.h"
-
 
 #ifdef USE_SPARKLE
 #if __has_feature(modules)
