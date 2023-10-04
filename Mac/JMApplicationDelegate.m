@@ -22,7 +22,6 @@
 #endif
 
 
-
 @interface JMApplicationDelegate ()
 	@property (assign, nonatomic) NSInteger minimumUsagesForRating;
 #ifndef SKIP_RATINGWINDOW
@@ -30,6 +29,7 @@
 #endif
 @end
 
+CONST_KEY_IMPLEMENTATION(UpdatecheckMenuindex)
 
 @implementation JMApplicationDelegate
 
@@ -215,10 +215,6 @@
 {
 	[application terminate:self];
 }
-
-
-CONST_KEY_IMPLEMENTATION(UpdatecheckMenuindex)
-
 
 - (IBAction)checkForUpdatesAction:(id)sender
 {

@@ -33,12 +33,11 @@ typedef NS_ENUM(uint8_t, templateSettingEnum)
 	kTemplateAlways
 };
 
-
 CONST_KEY_DECLARATION(VisibilitySettingDidChangeNotification)
 CONST_KEY_DECLARATION(VisibilityAlertWindowDidResignNotification)
 CONST_KEY_DECLARATION(VisibilityShiftLeftClickNotification)
 
-@interface VisibilityManager : NSObject
+@interface JMVisibilityManager : NSObject
 
 @property (assign, nonatomic) templateSettingEnum templateSetting;
 @property (assign, nonatomic) visibilitySettingEnum visibilitySetting;

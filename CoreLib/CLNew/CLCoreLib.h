@@ -41,7 +41,11 @@
 @property (readonly, nonatomic) NSString *appChecksumSHA;
 @property (readonly, nonatomic) NSString *appChecksumIncludingFrameworksSHA;
 
--(instancetype)initWithCustomSupportRequestProvider:(id<CLCustomSupportRequestProvider>)customSupportRequestProvider NS_DESIGNATED_INITIALIZER;
+// convenience method that calls -initWithCustomSupportRequestProvider:andBundlerIdentifier: with a nil bundleIdentifier
+-(instancetype)initWithCustomSupportRequestProvider:(id<CLCustomSupportRequestProvider>)customSupportRequestProvider;
+
+-(instancetype)initWithCustomSupportRequestProvider:(id<CLCustomSupportRequestProvider>)customSupportRequestProvider
+                                       andSuiteName:(NSString *)suiteName NS_DESIGNATED_INITIALIZER; // suite name -> bundle identifier if no app suite is set up
 -(instancetype)init NS_UNAVAILABLE;
 
 - (void)openURL:(CLOpenChoice)choice;

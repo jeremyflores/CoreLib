@@ -58,17 +58,27 @@ __attribute__((noreturn)) void exceptionHandler(NSException *exception)
 }
 #endif
 
-+ (void)initialize
-{
-    
+-(instancetype)initWithCustomSupportRequestProvider:(id<CLCustomSupportRequestProvider>)customSupportRequestProvider {
+    CLCoreLib *coreLib = [self initWithCustomSupportRequestProvider:customSupportRequestProvider andSuiteName:nil];
+    return coreLib;
 }
 
--(instancetype)initWithCustomSupportRequestProvider:(id<CLCustomSupportRequestProvider>)customSupportRequestProvider {
+-(instancetype)initWithCustomSupportRequestProvider:(id<CLCustomSupportRequestProvider>)customSupportRequestProvider
+                                       andSuiteName:(NSString *)suiteName {
     assert(!cc);
 
     if ((self=[super init])) {
         self.customSupportRequestProvider = customSupportRequestProvider;
-        initializeCLGlobals(self);
+
+        NSUserDefaults *_userDefaults;
+        if (!suiteName || suiteName.length == 0) {
+            _userDefaults = NSUserDefaults.standardUserDefaults;
+        }
+        else {
+            _userDefaults = [[NSUserDefaults alloc] initWithSuiteName:suiteName];
+        }
+
+        initializeCLGlobals(self, _userDefaults);
 
 #ifndef SKIP_CREATE_APPSUPPORT_DIRECTORY
         if (self.appName)

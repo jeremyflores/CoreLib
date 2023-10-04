@@ -17,6 +17,7 @@
 #import "NSCharacterSet+CoreCode.h"
 #import "NSMutableCharacterSet+CoreCode.h"
 #import "NSData+CoreCode.h"
+#import "NSMutableData+CoreCode.h"
 #import "NSDate+CoreCode.h"
 #import "NSDateFormatter+CoreCode.h"
 #import "NSDictionary+CoreCode.h"

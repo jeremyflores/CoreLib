@@ -28,4 +28,4 @@ extern NSProcessInfo *processInfo;
 #endif
 
 // called from `CLCoreLib -init`
-void initializeCLGlobals(CLCoreLib *coreLib);
+void initializeCLGlobals(CLCoreLib *coreLib, NSUserDefaults *userDefaults);

@@ -18,14 +18,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #endif
 
 
-CONST_KEY(JMVisibilityManagerValue)
 CONST_KEY(JMVisibilityManagerOptionValue)
+CONST_KEY(JMVisibilityManagerValue)
 CONST_KEY_IMPLEMENTATION(VisibilitySettingDidChangeNotification)
 CONST_KEY_IMPLEMENTATION(VisibilityAlertWindowDidResignNotification)
 CONST_KEY_IMPLEMENTATION(VisibilityShiftLeftClickNotification)
 
 
-@interface VisibilityManager ()
+@interface JMVisibilityManager ()
 {
     visibilitySettingEnum _visibilitySetting;
     visibilityOptionEnum _visibilityOption;
@@ -43,19 +43,9 @@ CONST_KEY_IMPLEMENTATION(VisibilityShiftLeftClickNotification)
 
 
 
-@implementation VisibilityManager
+@implementation JMVisibilityManager
 
 @dynamic visibilitySetting, visibilityOption, dockIcon, menubarIcon, menuTooltip, currentlyVisibleInDock, permanentlyVisibleInDock, visibleInMenubar;
-
-    
-+ (void)initialize
-{
-    NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
-
-    defaultValues[kJMVisibilityManagerValueKey] = @(kVisibleDock);
-
-    [NSUserDefaults.standardUserDefaults registerDefaults:defaultValues];
-}
 
 - (instancetype)init
 {
@@ -64,7 +54,13 @@ CONST_KEY_IMPLEMENTATION(VisibilityShiftLeftClickNotification)
 #ifdef DEBUG
         assert([(NSString *)[NSBundle.mainBundle objectForInfoDictionaryKey:@"LSUIElement"] boolValue]);
 #endif
-        
+
+        if(![NSUserDefaults.standardUserDefaults objectForKey:kJMVisibilityManagerValueKey]) {
+            [NSUserDefaults.standardUserDefaults registerDefaults:
+                 @{ kJMVisibilityManagerValueKey: @(kVisibleDock) }
+            ];
+        }
+
         _visibilitySetting = kVisibleNowhere;
         _templateSetting = kTemplateNever;
         _visibilityOption = (visibilityOptionEnum) kJMVisibilityManagerOptionValueKey.defaultInt;
