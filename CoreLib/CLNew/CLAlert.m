@@ -34,7 +34,7 @@ void alert_feedback(NSString *usermsg, NSString *details, BOOL fatal)
 
         NSString *encodedPrefs = @"";
         
-        [NSUserDefaults.standardUserDefaults synchronize];
+        [userDefaults synchronize];
         
 #if CL_TARGET_OSX
         NSData *prefsData = cc.prefsURL.contents;

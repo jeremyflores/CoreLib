@@ -21,6 +21,8 @@
 #import "JMReceiptValidation.h"
 #endif
 
+CONST_KEY_IMPLEMENTATION(UpdatecheckMenuindex)
+
 
 @interface JMApplicationDelegate ()
 	@property (assign, nonatomic) NSInteger minimumUsagesForRating;
@@ -29,12 +31,21 @@
 #endif
 @end
 
-CONST_KEY_IMPLEMENTATION(UpdatecheckMenuindex)
-
 @implementation JMApplicationDelegate
 
-
 @dynamic isRateable;
+
+-(instancetype)init {
+    if ((self=[super init])) {
+        if(![userDefaults objectForKey:kUpdatecheckMenuindexKey]) {
+            [userDefaults registerDefaults:
+                 @{ kUpdatecheckMenuindexKey: @2 }
+            ];
+        }
+    }
+
+    return self;
+}
 
 #ifndef SANDBOX
 - (void)checkAndReportCrashesContaining:(NSArray <NSString *> *)neccessarySubstringsOrNil blacklistedStrings:(NSArray <NSString *> *)blacklistedStringsOrNil to:(NSString *)destinationMail

@@ -12,7 +12,7 @@
 
 void cc_defaults_addtoarray(NSString *key, NSObject *entry, NSUInteger maximumEntries)
 {
-    NSArray *currentArray = [NSUserDefaults.standardUserDefaults objectForKey:key];
+    NSArray *currentArray = [userDefaults objectForKey:key];
     
     if (!currentArray || ![currentArray isKindOfClass:NSArray.class])
         currentArray = @[];
@@ -22,5 +22,5 @@ void cc_defaults_addtoarray(NSString *key, NSObject *entry, NSUInteger maximumEn
     while (currentArray.count > maximumEntries)
         currentArray = [currentArray arrayByRemovingObjectAtIndex:0];
     
-    [NSUserDefaults.standardUserDefaults setObject:currentArray forKey:key];
+    [userDefaults setObject:currentArray forKey:key];
 }

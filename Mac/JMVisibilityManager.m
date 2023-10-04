@@ -55,8 +55,8 @@ CONST_KEY_IMPLEMENTATION(VisibilityShiftLeftClickNotification)
         assert([(NSString *)[NSBundle.mainBundle objectForInfoDictionaryKey:@"LSUIElement"] boolValue]);
 #endif
 
-        if(![NSUserDefaults.standardUserDefaults objectForKey:kJMVisibilityManagerValueKey]) {
-            [NSUserDefaults.standardUserDefaults registerDefaults:
+        if(![userDefaults objectForKey:kJMVisibilityManagerValueKey]) {
+            [userDefaults registerDefaults:
                  @{ kJMVisibilityManagerValueKey: @(kVisibleDock) }
             ];
         }
@@ -117,7 +117,7 @@ CONST_KEY_IMPLEMENTATION(VisibilityShiftLeftClickNotification)
     
 
     kJMVisibilityManagerOptionValueKey.defaultInt = newOption;
-    [NSUserDefaults.standardUserDefaults synchronize];
+    [userDefaults synchronize];
 
     [notificationCenter postNotificationName:kVisibilitySettingDidChangeNotificationKey object:self];
 }
@@ -136,7 +136,7 @@ CONST_KEY_IMPLEMENTATION(VisibilityShiftLeftClickNotification)
     [self _redisplay];
 
     kJMVisibilityManagerValueKey.defaultInt = newSetting;
-    [NSUserDefaults.standardUserDefaults synchronize];
+    [userDefaults synchronize];
     
     [notificationCenter postNotificationName:kVisibilitySettingDidChangeNotificationKey object:self];
 }

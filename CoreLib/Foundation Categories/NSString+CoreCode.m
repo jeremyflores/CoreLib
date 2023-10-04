@@ -1071,19 +1071,19 @@
 - (void)setDefaultArray:(NSArray *)newDefault
 {
     assert(userDefaults);
-    [NSUserDefaults.standardUserDefaults setObject:newDefault forKey:self];
+    [userDefaults setObject:newDefault forKey:self];
 }
 
 - (NSDictionary *)defaultDict
 {
     assert(userDefaults);
-    return [NSUserDefaults.standardUserDefaults dictionaryForKey:self];
+    return [userDefaults dictionaryForKey:self];
 }
 
 - (void)setDefaultDict:(NSDictionary *)newDefault
 {
     assert(userDefaults);
-    [NSUserDefaults.standardUserDefaults setObject:newDefault forKey:self];
+    [userDefaults setObject:newDefault forKey:self];
 }
 
 - (id)defaultObject

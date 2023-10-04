@@ -23,7 +23,7 @@
 
 void CheckAndReportCrashes(NSString *email, NSArray *neccessaryStrings, NSArray *blacklistedStrings)
 {
-    if ([NSUserDefaults.standardUserDefaults integerForKey:kNeverCheckCrashesKey] == 0)
+    if ([userDefaults integerForKey:kNeverCheckCrashesKey] == 0)
     {
         NSString *path = nil;
         NSDate *newestcrashdate = [NSDate dateWithString:@"2007 01 01" format:@"yyyy dd MM"];
@@ -73,7 +73,7 @@ void CheckAndReportCrashes(NSString *email, NSArray *neccessaryStrings, NSArray 
 
         if (path)
         {
-            NSDate *lastCrashDate = [NSUserDefaults.standardUserDefaults objectForKey:kLastCrashDateKey];
+            NSDate *lastCrashDate = [userDefaults objectForKey:kLastCrashDateKey];
             if (!lastCrashDate)
                 lastCrashDate = [NSDate distantPast];
 
@@ -126,7 +126,7 @@ void CheckAndReportCrashes(NSString *email, NSArray *neccessaryStrings, NSArray 
                                        makeLocalizedString(@"It seems like %@ has crashed recently. Please consider sending the crash-log to help fix this problem. Also, make sure you are using the latest version by using the built-in update mechanism since most reported crashes are already fixed in the latest version.", cc.appName),
                                        @"Send".localized, @"Never".localized, @"Cancel".localized);
 
-                [NSUserDefaults.standardUserDefaults setObject:[NSDate dateWithTimeIntervalSinceNow:60 * 60 * 24 * 3] forKey:kLastCrashDateKey]; // bug the user every 3 days at most
+                [userDefaults setObject:[NSDate dateWithTimeIntervalSinceNow:60 * 60 * 24 * 3] forKey:kLastCrashDateKey]; // bug the user every 3 days at most
 
                 if (code == NSAlertFirstButtonReturn)
                 {
@@ -156,7 +156,7 @@ void CheckAndReportCrashes(NSString *email, NSArray *neccessaryStrings, NSArray 
                     
                     NSString *subject = [NSString stringWithFormat:@"%@ v%@ (%i) Crash Report (License code: %@)", appName, cc.appVersionString, cc.appBuildNumber, licenseCode];
                     NSString *body = [NSString stringWithFormat:@"Unfortunately %@ has crashed!\n\n--%@--\n\n\nInput Managers: %@\n\nCrash Log (%d):\n\n**********\n%@\nUser Defaults:\n\n**********\n%@\n\nDarkmode: %i", appName,
-                                       @"Please fill in additional details here".localized, inputManagers, cc.appBuildNumber, crashlog, [NSUserDefaults.standardUserDefaults persistentDomainForName:cc.appBundleIdentifier].description, darkMode];
+                                       @"Please fill in additional details here".localized, inputManagers, cc.appBuildNumber, crashlog, [userDefaults persistentDomainForName:cc.appBundleIdentifier].description, darkMode];
 
 
                     NSString *mailtoLink = [NSString stringWithFormat:@"mailto:%@?subject=%@&body=%@", email, subject, body];
@@ -167,7 +167,7 @@ void CheckAndReportCrashes(NSString *email, NSArray *neccessaryStrings, NSArray 
 
                 }
                 else if (code == NSAlertSecondButtonReturn)
-                    [NSUserDefaults.standardUserDefaults setInteger:1 forKey:kNeverCheckCrashesKey];
+                    [userDefaults setInteger:1 forKey:kNeverCheckCrashesKey];
 
                 if (![NSUserDefaultsController.sharedUserDefaultsController commitEditing])
                     cc_log_error(@"Warning: shared user defaults controller could not commit editing");
