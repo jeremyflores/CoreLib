@@ -23,14 +23,14 @@ NSWorkspace *workspace;
 NSProcessInfo *processInfo;
 #endif
 
-void initializeCLGlobals(CLCoreLib *coreLib, NSUserDefaults *_userDefaults) {
+void initializeCLGlobals(CLCoreLib *coreLib, NSBundle *_bundle, NSUserDefaults *_userDefaults) {
     cc = coreLib;
 
     userDefaults = _userDefaults;
 
     fileManager = NSFileManager.defaultManager;
     notificationCenter = NSNotificationCenter.defaultCenter;
-    bundle = NSBundle.mainBundle;
+    bundle = _bundle;
 
 // AppKit-specific globals
 #if CL_TARGET_OSX

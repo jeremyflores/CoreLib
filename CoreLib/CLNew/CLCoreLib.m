@@ -59,12 +59,15 @@ __attribute__((noreturn)) void exceptionHandler(NSException *exception)
 #endif
 
 -(instancetype)initWithCustomSupportRequestProvider:(id<CLCustomSupportRequestProvider>)customSupportRequestProvider {
-    CLCoreLib *coreLib = [self initWithCustomSupportRequestProvider:customSupportRequestProvider andSuiteName:nil];
+    CLCoreLib *coreLib = [self initWithCustomSupportRequestProvider:customSupportRequestProvider
+                                                         bundlePath:nil
+                                                       andSuiteName:nil];
     return coreLib;
 }
 
 -(instancetype)initWithCustomSupportRequestProvider:(id<CLCustomSupportRequestProvider>)customSupportRequestProvider
-                                       andSuiteName:(NSString *)suiteName {
+                                         bundlePath:(NSString *)bundlePath
+                                       andSuiteName:(nullable NSString *)suiteName {
     assert(!cc);
 
     if ((self=[super init])) {
@@ -78,7 +81,26 @@ __attribute__((noreturn)) void exceptionHandler(NSException *exception)
             _userDefaults = [[NSUserDefaults alloc] initWithSuiteName:suiteName];
         }
 
-        initializeCLGlobals(self, _userDefaults);
+        NSBundle *_bundle;
+        if (!bundlePath || bundlePath.length == 0) {
+            _bundle = NSBundle.mainBundle;
+        }
+        else {
+            BOOL isPathADirectory = NO;
+            // TODO: order the globals initialization so we can just use `fileManager` here.
+            BOOL doesAppBundleDirectoryExist = [NSFileManager.defaultManager fileExistsAtPath: bundlePath
+                                                                                  isDirectory: &isPathADirectory];
+
+            if (!doesAppBundleDirectoryExist || !isPathADirectory) {
+                @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                               reason:[NSString stringWithFormat:@"Bundle does not exist at path: %@", bundlePath]
+                                             userInfo:nil];
+            }
+
+            _bundle = [NSBundle bundleWithPath:bundlePath];
+        }
+
+        initializeCLGlobals(self, _bundle, _userDefaults);
 
 #ifndef SKIP_CREATE_APPSUPPORT_DIRECTORY
         if (self.appName)
@@ -140,13 +162,12 @@ __attribute__((noreturn)) void exceptionHandler(NSException *exception)
             ![(NSString *)[bundle objectForInfoDictionaryKey:@"NSPrincipalClass"] isEqualToString:@"JMDocklessApplication"])
             cc_log_debug(@"Warning: app can hide dock symbol but has no fixed principal class");
 
-#ifndef CLI
-        if (![[(NSString *)[bundle objectForInfoDictionaryKey:@"MacupdaternetProductPage"] lowercaseString] contains:self.appName.lowercaseString] && ((NSString *)[NSBundle.mainBundle objectForInfoDictionaryKey:@"FilehorseProductPage"]).length)
+        if (![[(NSString *)[bundle objectForInfoDictionaryKey:@"MacupdaternetProductPage"] lowercaseString] contains:self.appName.lowercaseString] && ((NSString *)[bundle objectForInfoDictionaryKey:@"FilehorseProductPage"]).length)
             cc_log_debug(@"Info: info.plist key MacupdaternetProductPage not properly set - will fall back to FileHorse");
         else if (![[(NSString *)[bundle objectForInfoDictionaryKey:@"MacupdaternetProductPage"] lowercaseString] contains:self.appName.lowercaseString])
             cc_log_debug(@"Warning: info.plist key MacupdaternetProductPage not properly set");
 
-        if (![[(NSString *)[bundle objectForInfoDictionaryKey:@"StoreProductPage"] lowercaseString] contains:self.appName.lowercaseString] && ((NSString *)[NSBundle.mainBundle objectForInfoDictionaryKey:@"AlternativetoProductPage"]).length)
+        if (![[(NSString *)[bundle objectForInfoDictionaryKey:@"StoreProductPage"] lowercaseString] contains:self.appName.lowercaseString] && ((NSString *)[bundle objectForInfoDictionaryKey:@"AlternativetoProductPage"]).length)
             cc_log_debug(@"Info: info.plist key StoreProductPage not properly set - will fall back to AlternativeTo");
         else if (![[(NSString *)[bundle objectForInfoDictionaryKey:@"StoreProductPage"] lowercaseString] contains:self.appName.lowercaseString])
             cc_log_debug(@"Warning: info.plist key StoreProductPage not properly set (%@ NOT CONTAINS %@)", [(NSString *)[bundle objectForInfoDictionaryKey:@"StoreProductPage"] lowercaseString], self.appName.lowercaseString);
@@ -154,7 +175,6 @@ __attribute__((noreturn)) void exceptionHandler(NSException *exception)
         
         if (!((NSString *)[bundle objectForInfoDictionaryKey:@"LSApplicationCategoryType"]).length)
             cc_log(@"Warning: LSApplicationCategoryType not properly set");
-#endif
         
         
         
@@ -270,12 +290,12 @@ __attribute__((noreturn)) void exceptionHandler(NSException *exception)
 
 - (NSString *)appBundleIdentifier
 {
-    return NSBundle.mainBundle.bundleIdentifier;
+    return bundle.bundleIdentifier;
 }
 
 - (NSString *)appVersionString
 {
-    return [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    return [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 }
 
 - (NSString *)appName
@@ -283,7 +303,7 @@ __attribute__((noreturn)) void exceptionHandler(NSException *exception)
 #if defined(XCTEST) && XCTEST
     return @"TEST";
 #else
-    return [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleName"];
+    return [bundle objectForInfoDictionaryKey:@"CFBundleName"];
 #endif
 }
 
@@ -295,19 +315,19 @@ __attribute__((noreturn)) void exceptionHandler(NSException *exception)
 #endif
     return @(CLI_BUNDLEVERSION).intValue;
 #else
-    NSString *bundleVersion = [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+    NSString *bundleVersion = [bundle objectForInfoDictionaryKey:@"CFBundleVersion"];
     return bundleVersion.intValue;
 #endif
 }
 
 - (NSString *)resDir
 {
-    return NSBundle.mainBundle.resourcePath;
+    return bundle.resourcePath;
 }
 
 - (NSURL *)resURL
 {
-    return NSBundle.mainBundle.resourceURL;
+    return bundle.resourceURL;
 }
 
 - (NSString *)docDir
@@ -365,18 +385,18 @@ __attribute__((noreturn)) void exceptionHandler(NSException *exception)
 
 - (NSString *)appChecksumSHA
 {
-    NSURL *u = NSBundle.mainBundle.executableURL;
+    NSURL *u = bundle.executableURL;
     
     return u.fileChecksumSHA;
 }
 
 - (NSString *)appChecksumIncludingFrameworksSHA
 {
-    NSURL *u = NSBundle.mainBundle.executableURL;
+    NSURL *u = bundle.executableURL;
     
     NSString *checksum = [u.fileChecksumSHA clamp:10];
     
-    for (NSURL *framework in NSBundle.mainBundle.privateFrameworksURL.directoryContents)
+    for (NSURL *framework in bundle.privateFrameworksURL.directoryContents)
     {
         NSURL *exe = [NSBundle bundleWithURL:framework].executableURL;
         

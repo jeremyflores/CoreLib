@@ -197,7 +197,7 @@ CONST_KEY_IMPLEMENTATION(UpdatecheckMenuindex)
 	LOGFUNCPARAM(nibName);
 
 	if (!*window)
-		[NSBundle.mainBundle loadNibNamed:nibName owner:self topLevelObjects:NULL];
+		[bundle loadNibNamed:nibName owner:self topLevelObjects:NULL];
 
 	if ((*window).minSize.height > 680)
 	{

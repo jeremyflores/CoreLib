@@ -105,14 +105,14 @@ void MoveCallbackFunction(ConstFSEventStreamRef streamRef,
 
 + (void)startMoveObservation
 {
-    CFStringRef mypath = (__bridge CFStringRef)NSBundle.mainBundle.bundlePath;
+    CFStringRef mypath = (__bridge CFStringRef)bundle.bundlePath;
     CFArrayRef pathsToWatch = CFArrayCreate(NULL, (const void **)&mypath, 1, NULL);
     void *callbackInfo = NULL;
     FSEventStreamRef stream;
     CFAbsoluteTime latency = 3.0;
 
 
-    bundleFileDescriptor = open(NSBundle.mainBundle.bundlePath.UTF8String, O_RDONLY, 0700);
+    bundleFileDescriptor = open(bundle.bundlePath.UTF8String, O_RDONLY, 0700);
     stream = FSEventStreamCreate(NULL,
                                  &MoveCallbackFunction,
                                  callbackInfo,
@@ -131,7 +131,7 @@ void MoveCallbackFunction(ConstFSEventStreamRef streamRef,
     if (!observer)
     {
         observer = [[JMAppVolumeRenamedObserver alloc] init];
-        observer.path = NSBundle.mainBundle.bundlePath;
+        observer.path = bundle.bundlePath;
         [NSWorkspace.sharedWorkspace.notificationCenter addObserver:observer
                                                            selector:@selector(watch:)
                                                                name:NSWorkspaceDidRenameVolumeNotification object:NULL];

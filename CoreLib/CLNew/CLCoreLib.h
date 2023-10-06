@@ -12,8 +12,6 @@
 #import "CLOpenChoice.h"
 #import "CLTarget.h"
 
-
-
 @interface CLCoreLib : NSObject
 
 @property(readonly, weak, nonatomic) id<CLCustomSupportRequestProvider> customSupportRequestProvider;
@@ -41,10 +39,11 @@
 @property (readonly, nonatomic) NSString *appChecksumSHA;
 @property (readonly, nonatomic) NSString *appChecksumIncludingFrameworksSHA;
 
-// convenience method that calls -initWithCustomSupportRequestProvider:andBundlerIdentifier: with a nil bundleIdentifier
+// convenience method that calls -initWithCustomSupportRequestProvider:bundlePath:andSuiteName: with a nil bundle path and nil suite name
 -(instancetype)initWithCustomSupportRequestProvider:(id<CLCustomSupportRequestProvider>)customSupportRequestProvider;
 
 -(instancetype)initWithCustomSupportRequestProvider:(id<CLCustomSupportRequestProvider>)customSupportRequestProvider
+                                         bundlePath:(NSString *)bundlePath
                                        andSuiteName:(NSString *)suiteName NS_DESIGNATED_INITIALIZER; // suite name -> bundle identifier if no app suite is set up
 -(instancetype)init NS_UNAVAILABLE;
 

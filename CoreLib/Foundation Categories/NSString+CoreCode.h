@@ -199,4 +199,6 @@
 - (NSArray <NSString *> *)split:(NSString *)sep;                        // shortcut = componentsSeparatedByString:
 - (NSString *)appended:(NSString *)str;                                 // shortcut = stringByAppendingString
 
+- (NSString *)stringByAppendingPathComponents:(NSArray<NSString *> *)components;
+
 @end

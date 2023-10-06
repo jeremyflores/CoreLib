@@ -1526,4 +1526,15 @@ CONST_KEY(CCDirectoryObserving)
         cc_log_debug(@"Warning: stopped observing on location which was never observed %@", self);
 }
 #endif
+
+- (NSString *)stringByAppendingPathComponents:(NSArray<NSString *> *)components {
+    NSString *string = self;
+
+    for (NSString *component in components) {
+        string = [string stringByAppendingPathComponent:component];
+    }
+
+    return string;
+}
+
 @end

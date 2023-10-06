@@ -41,9 +41,9 @@
 
 - (instancetype)init
 {
-    if (!((NSString *)[NSBundle.mainBundle objectForInfoDictionaryKey:@"StoreProductPage"]).length && ((NSString *)[NSBundle.mainBundle objectForInfoDictionaryKey:@"AlternativetoProductPage"]).length)
+    if (!((NSString *)[bundle objectForInfoDictionaryKey:@"StoreProductPage"]).length && ((NSString *)[bundle objectForInfoDictionaryKey:@"AlternativetoProductPage"]).length)
         @"icon-alternativeto".namedImage.name = @"icon-appstore";
-    if (!((NSString *)[NSBundle.mainBundle objectForInfoDictionaryKey:@"MacupdaternetProductPage"]).length && ((NSString *)[NSBundle.mainBundle objectForInfoDictionaryKey:@"FilehorseProductPage"]).length)
+    if (!((NSString *)[bundle objectForInfoDictionaryKey:@"MacupdaternetProductPage"]).length && ((NSString *)[bundle objectForInfoDictionaryKey:@"FilehorseProductPage"]).length)
         @"icon-filehorse".namedImage.name = @"icon-macupdater";
     
     return [super initWithWindowNibName:@"JMRatingWindow"];
@@ -73,9 +73,9 @@
     self.angryView.hidden = YES;
     self.happyView.hidden = NO;
     
-    if (!((NSString *)[NSBundle.mainBundle objectForInfoDictionaryKey:@"StoreProductPage"]).length)
+    if (!((NSString *)[bundle objectForInfoDictionaryKey:@"StoreProductPage"]).length)
     {
-        if (!((NSString *)[NSBundle.mainBundle objectForInfoDictionaryKey:@"AlternativetoProductPage"]).length)
+        if (!((NSString *)[bundle objectForInfoDictionaryKey:@"AlternativetoProductPage"]).length)
             self.rateappstoreButton.enabled = NO;
         else
         {
@@ -83,9 +83,9 @@
         }
     }
 
-    if (!((NSString *)[NSBundle.mainBundle objectForInfoDictionaryKey:@"MacupdaternetProductPage"]).length)
+    if (!((NSString *)[bundle objectForInfoDictionaryKey:@"MacupdaternetProductPage"]).length)
     {
-        if (!((NSString *)[NSBundle.mainBundle objectForInfoDictionaryKey:@"FilehorseProductPage"]).length)
+        if (!((NSString *)[bundle objectForInfoDictionaryKey:@"FilehorseProductPage"]).length)
             self.ratemacupdateButton.enabled = NO;
         else
             self.ratemacupdateButton.title = @"    Rate on FileHorse".localized;

@@ -52,7 +52,7 @@ CONST_KEY_IMPLEMENTATION(VisibilityShiftLeftClickNotification)
     if ((self = [super init]))
     {
 #ifdef DEBUG
-        assert([(NSString *)[NSBundle.mainBundle objectForInfoDictionaryKey:@"LSUIElement"] boolValue]);
+        assert([(NSString *)[bundle objectForInfoDictionaryKey:@"LSUIElement"] boolValue]);
 #endif
 
         if(![userDefaults objectForKey:kJMVisibilityManagerValueKey]) {
