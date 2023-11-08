@@ -21,7 +21,7 @@
 @property (readonly, nonatomic) NSArray <NSString *> *directoryContentsRecursiveAbsolute;
 @property (readonly, nonatomic) NSString *uniqueFile;
 @property (readonly, nonatomic) BOOL fileExists;
-#if CL_TARGET_OSX
+#if CL_TARGET_OSX || CL_TARGET_CLI
 @property (readonly, nonatomic) BOOL fileIsRestricted;
 @property (readonly, nonatomic) BOOL fileIsAlias; // this also returns one for symlinks - on macOS 12
 @property (readonly, nonatomic) BOOL fileIsSymlink;
@@ -179,7 +179,9 @@
 
 #if CL_TARGET_OSX
 - (CGSize)sizeUsingFont:(NSFont *)font maxWidth:(CGFloat)maxWidth;
+#endif
 
+#if CL_TARGET_OSX || CL_TARGET_CLI
 // FSEvents directory observing
 - (NSValue *)startObserving:(ObjectInBlock)block withFileLevelEvents:(BOOL)fileLevelEvents; // the block is guaranteed to be executed in the main thread
 - (void)stopObserving:(NSValue *)token;

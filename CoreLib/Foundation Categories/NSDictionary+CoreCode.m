@@ -12,10 +12,50 @@
 
 #import "NSMutableDictionary+CoreCode.h"
 #import "NSObject+CoreCode.h"
+#import "NSArray+CoreCode.h"
 
 @implementation NSDictionary (CoreCode)
 
 @dynamic mutableObject, XMLData, literalString, JSONData;
+
++ (NSDictionary *)dictionaryByMergingDictionaries:(NSArray<NSDictionary *> *)dictionaries {
+    NSDictionary *result = [[self class] dictionaryByMergingDictionaries:dictionaries];
+
+    return result;
+}
+
+// if allowsConflicts=NO, and the same key is found in two or more dictionaries, then an NSException will be raised. if allowsConflicts=YES, and the same key is found in two or more dictionaries, then the value found in the dictionary closest to the end of the array will be used.
++ (NSDictionary *)dictionaryByMergingDictionaries:(NSArray<NSDictionary *> *)dictionaries
+                                allowingConflicts:(BOOL)allowsConflicts {
+    NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionary];
+
+    for (NSDictionary *dictionary in dictionaries) {
+        if (!allowsConflicts) {
+            NSSet *keysSet = [NSSet setWithArray:dictionary.allKeys];
+            NSSet *alreadyExistingKeysSet = [NSSet setWithArray:mutableDictionary.allKeys];
+
+            NSMutableSet *intersectableSet = [NSMutableSet setWithSet:keysSet];
+            [intersectableSet intersectSet:alreadyExistingKeysSet];
+
+            if (intersectableSet.count > 0) {
+                NSArray *mutualKeysArray = [intersectableSet allObjects];
+                NSString *mutualKeysString = [mutualKeysArray componentsJoinedByString:@", "];
+
+                NSString *reasonString = [NSString stringWithFormat:@"Conflict found when attempting to merge dictionaries for keys: %@", mutualKeysString];
+
+                @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                               reason:reasonString
+                                             userInfo:nil];
+            }
+        }
+    
+        [mutableDictionary addEntriesFromDictionary:dictionary];
+    }
+
+    NSDictionary *result = mutableDictionary.immutableObject;
+
+    return result;
+}
 
 - (NSString *)literalString
 {

@@ -23,6 +23,12 @@
 #import "NSObject+CoreCode.h"
 #import "NSURL+CoreCode.h"
 
+#if __has_feature(modules)
+@import Darwin.POSIX.sys.stat;
+#else
+#include <sys/stat.h>
+#endif
+
 @implementation NSString (CoreCode)
 
 @dynamic words, lines, strippedOfWhitespace, strippedOfNewlines, trimmedOfWhitespace, trimmedOfWhitespaceAndNewlines, URL, fileURL, download, downloadWithCurl, resourceURL, resourcePath, localized, defaultObject, defaultString, defaultInt, defaultFloat, defaultURL, directoryContents, directoryContentsRecursive, directoryContentsAbsolute, directoryContentsRecursiveAbsolute, fileExists, uniqueFile, expanded, defaultArray, defaultDict, isWriteablePath, fileSize, directorySize, contents, dataFromHexString, dataFromBase64String, unescaped, escaped, isIntegerNumber, isIntegerNumberOnly, isFloatNumber, data, firstChar, lastChar, fullRange, stringByResolvingSymlinksInPathFixed, literalString, isNumber, rot13, characterSet, lengthFixed, reverseString, pathsMatchingPattern;
@@ -31,7 +37,7 @@
 @dynamic namedImage;
 #endif
 
-#if CL_TARGET_OSX
+#if CL_TARGET_OSX || CL_TARGET_CLI
 @dynamic fileIsAlias, fileAliasTarget, fileIsSymlink, fileIsRestricted, fileHasSymlinkInPath;
 #endif
 
@@ -185,7 +191,7 @@
 }
 #endif
 
-#if CL_TARGET_OSX
+#if CL_TARGET_OSX || CL_TARGET_CLI
 
 - (BOOL)fileIsRestricted
 {
@@ -259,7 +265,9 @@
     return nurl.path;
 
 }
+#endif
 
+#if CL_TARGET_OSX
 - (CGSize)sizeUsingFont:(NSFont *)font maxWidth:(CGFloat)maxWidth
 {
     NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString:self];
@@ -1455,7 +1463,7 @@
     return array.joinedWithNewlines;
 }
 
-#if CL_TARGET_OSX
+#if CL_TARGET_OSX || CL_TARGET_CLI
 void directoryObservingReleaseCallback(const void *info)
 {
     CFBridgingRelease(info);
