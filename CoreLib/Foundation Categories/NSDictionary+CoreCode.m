@@ -14,6 +14,24 @@
 #import "NSObject+CoreCode.h"
 #import "NSArray+CoreCode.h"
 
+id SetNullableDictionaryValue(id input) {
+    if (input) {
+        return input;
+    }
+    else {
+        return [NSNull null];
+    }
+}
+
+id GetNilDictionaryValue(id value) {
+    if (value && ![value isEqual:[NSNull null]]) {
+        return value;
+    }
+    else {
+        return nil;
+    }
+}
+
 @implementation NSDictionary (CoreCode)
 
 @dynamic mutableObject, XMLData, literalString, JSONData;

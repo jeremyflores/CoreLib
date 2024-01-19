@@ -15,7 +15,8 @@ NSUserDefaults *userDefaults;
 NSFileManager *fileManager;
 NSNotificationCenter *notificationCenter;
 NSBundle *bundle;
-#if CL_TARGET_OSX
+
+#if CL_TARGET_OSX || CL_TARGET_CLI
 NSFontManager *fontManager;
 NSDistributedNotificationCenter *distributedNotificationCenter;
 NSApplication *application;
@@ -33,7 +34,7 @@ void initializeCLGlobals(CLCoreLib *coreLib, NSBundle *_bundle, NSUserDefaults *
     bundle = _bundle;
 
 // AppKit-specific globals
-#if CL_TARGET_OSX
+#if CL_TARGET_OSX || CL_TARGET_CLI
     fontManager = NSFontManager.sharedFontManager;
     distributedNotificationCenter = NSDistributedNotificationCenter.defaultCenter;
     workspace = NSWorkspace.sharedWorkspace;

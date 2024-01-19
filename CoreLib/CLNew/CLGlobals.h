@@ -11,6 +11,8 @@
 #import "CLTarget.h"
 #import "CLUIImport.h"
 
+#import <AppKit/AppKit.h>
+
 @class CLCoreLib;
 
 extern CLCoreLib *cc; // init CoreLib with: cc = [[CLCoreLib alloc] initWithCustomSupportRequestProvider:...]
@@ -19,7 +21,7 @@ extern NSFileManager *fileManager;
 extern NSNotificationCenter *notificationCenter;
 extern NSBundle *bundle;
 
-#if CL_TARGET_OSX
+#if CL_TARGET_OSX || CL_TARGET_CLI
 extern NSFontManager *fontManager;
 extern NSDistributedNotificationCenter *distributedNotificationCenter;
 extern NSWorkspace *workspace;

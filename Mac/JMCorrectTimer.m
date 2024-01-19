@@ -86,7 +86,7 @@
     self.timer = nil;
     self.timerBlock = nil;
     self.dropBlock = nil;
-    
+
     [NSWorkspace.sharedWorkspace.notificationCenter removeObserver:self name:NSWorkspaceWillSleepNotification object:NULL];
     [NSWorkspace.sharedWorkspace.notificationCenter removeObserver:self name:NSWorkspaceDidWakeNotification object:NULL];
 }
@@ -145,7 +145,6 @@
 
             self.timerBlock = nil;
             self.dropBlock = nil;
-
 
             [NSWorkspace.sharedWorkspace.notificationCenter removeObserver:self name:NSWorkspaceWillSleepNotification object:NULL];
             [NSWorkspace.sharedWorkspace.notificationCenter removeObserver:self name:NSWorkspaceDidWakeNotification object:NULL];

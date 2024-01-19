@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+id SetNullableDictionaryValue(id input);
+id GetNilDictionaryValue(id value);
+
 @interface NSDictionary <KeyType, ObjectType>(CoreCode)
 
 @property (readonly, nonatomic) NSString *literalString;

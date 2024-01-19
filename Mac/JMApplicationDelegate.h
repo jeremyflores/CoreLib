@@ -74,11 +74,6 @@
 - (IBAction)purchaseDetailsClicked:(id)sender;
 - (IBAction)purchaseActivateClicked:(id)sender;
 - (IBAction)purchaseRecoverClicked:(id)sender;
-@property (assign, nonatomic) BOOL purchaseEnabled;
-@property (assign, nonatomic) purchaseActivationType purchaseActivated;
-@property (strong, nonatomic) NSString *purchaseEmail;
-@property (strong, nonatomic) NSString *purchaseLicense;
-
 
 @end
 
