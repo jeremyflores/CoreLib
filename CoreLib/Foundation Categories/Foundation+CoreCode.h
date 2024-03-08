@@ -33,6 +33,7 @@
 #import "NSMutableSet+CoreCode.h"
 #import "NSString+CoreCode.h"
 #import "NSMutableString+CoreCode.h"
+#import "NSPredicate+CoreCode.h"
 #import "NSTask+CoreCode.h"
 #import "NSURL+CoreCode.h"
 #import "NSURLRequest+CoreCode.h"
